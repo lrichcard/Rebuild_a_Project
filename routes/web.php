@@ -1,5 +1,7 @@
 <?php
-
+use App\Http\Controllers\PersonnesController;
+use App\Http\Controllers\HorairesController;
+use App\Http\Controllers\ProfsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/','App\Http\Controllers\PersonnesController@index');
+Route::resource('/', PersonnesController::class);
+Route::resource('/personne', PersonnesController::class);
+
+// Route::resource('/personne', [PersonnesController::class]);
+
+Route::resource('/', HorairesController::class);
+Route::resource('/horaire', HorairesController::class);
+
+
+Route::resource('/', ProfsController::class);
+Route::resource('/prof', ProfsController::class);
