@@ -15,9 +15,10 @@ class CreateHorairesTable extends Migration
     {
         Schema::create('horaires', function (Blueprint $table) {
             $table->id();
-            $table->string('jour');
-            $table->string('heureDebut');
-            $table->string('heureFin');
+            $table->foreignId('salle_id');
+            $table->foreignId('jour_id');
+            $table->foreignId('heure_id');
+            $table->foreignId('cour_id');
             $table->timestamps();
         });
     }

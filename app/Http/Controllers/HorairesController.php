@@ -3,29 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Horaires;
+use App\Models\Horaire;
+use App\Models\Heure;
+use App\Models\Jour;
+use App\Models\Salle;
+use App\Models\Cour;
+
 
 class HorairesController extends Controller
-{
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+{public function index()
     {
-        $horaires = Horaires::all();
-        return view('horaire.index', ['horaires'=>$horaires]);
+        $horaires = Horaire::all();
+        $jours = Jour::find(7)->jours;
+        
+        return view('horaires.index', ['horaires'=>$horaires,'jours'=>$jours]);
     }
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('horaire.create');
+    {   $heures = Heure::all();
+        $jours = Jour::all();
+        $salles = Salle::all();
+        $cours = Cour::all();
+        return view('horaires.create',['heures'=>$heures,'jours'=>$jours,'salles'=>$salles,'cours'=>$cours]);
     }
 
     /**
@@ -36,15 +39,15 @@ class HorairesController extends Controller
      */
     public function store(Request $request)
     {
-        $horaire = new Horaires;
-        $horaire-> jour = $request->input('jour');
-        $horaire-> heureDebut= $request->input('heureDebut');
-        $horaire-> heureFin= $request->input('heureFin');
-
-
+        $horaire = new Horaire;
+        $horaire-> salle_id = $request->input('salle_id');
+        $horaire-> cour_id = $request->input('cour_id');
+        $horaire-> heure_id = $request->input('heure_id');
+        $horaire-> jour_id = $request->input('jour_id');
+        
         $horaire->save();
 
-        return redirect('horaire/create');
+        return redirect('horaires/create');
     }
 
     /**
@@ -64,10 +67,14 @@ class HorairesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $horaire = Horaires::find($id)->first();
-        return view ('horaire/edit')->with('horaire', $horaire); 
+    public function edit(Horaire $horaire)
+    {   $jours = Jour::all();
+        $cours = Cour::all();
+        $salles = Salle::all();
+        $heures = Heure::all();
+       // $horaire = Horaire::find($id)->first();
+        // return view ('horaire/edit')->with('horaire', $horaire,'cours',$cours); 
+        return view('horaires/edit',compact('cours','jours','salles','heures','horaire'));
     }
 
     /**
@@ -79,13 +86,13 @@ class HorairesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $horaire = Horaires::where('id',$id)->update([
-        'jour'=> $request->input('jour'),
-        'heureDebut'=>$request->input('heureDebut'),
-        'heureFin'=> $request->input('heureFin'),
-     ]);
+        $horaire = Horaire::where('id',$id)->update([
+        'salle_id'=> $request->input('salle_id'),
+        'jour_id'=> $request->input('jour_id'),
+        'cour_id'=> $request->input('cour_id'),
+        'heure_id'=> $request->input('heure_id')]);
         
-        return redirect('horaire/create');
+        return redirect('horaires/create');
         
     }
 
@@ -95,9 +102,9 @@ class HorairesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Horaires $horaire)
+    public function destroy(Horaire $horaire)
     {   //$horaire = horaires::find($id)->first();
         $horaire->delete();
-	    return redirect ('/');
+	    return redirect ('/horaires');
     }
 }

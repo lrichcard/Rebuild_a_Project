@@ -1,8 +1,13 @@
 <?php
-use App\Http\Controllers\PersonnesController;
-use App\Http\Controllers\HorairesController;
-use App\Http\Controllers\ProfsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CoursController;
+use App\Http\Controllers\JoursController;
+use App\Http\Controllers\ProfsController;
+use App\Http\Controllers\HeuresController;
+use App\Http\Controllers\SallesController;
+use App\Http\Controllers\HorairesController;
+use App\Http\Controllers\PersonnesController;
+use App\Http\Controllers\InscriptionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +20,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/','App\Http\Controllers\PersonnesController@index');
-Route::resource('/', PersonnesController::class);
-Route::resource('/personne', PersonnesController::class);
 
-// Route::resource('/personne', [PersonnesController::class]);
+// Route::resource('/', PersonnesController::class);
+// Route::resource('/personne', PersonnesController::class);
 
-Route::resource('/', HorairesController::class);
-Route::resource('/horaire', HorairesController::class);
+// // Route::resource('/personne', [PersonnesController::class]);
+
+// Route::resource('/', HorairesController::class);
+// Route::resource('/horaire', HorairesController::class);
 
 
-Route::resource('/', ProfsController::class);
-Route::resource('/prof', ProfsController::class);
+// Route::resource('/', ProfsController::class);
+// Route::resource('/prof', ProfsController::class);
+
+
+Route::resource('jours', JoursController::class);
+Route::resource('salles',SallesController::class);
+Route::resource('heures',HeuresController::class);
+Route::resource('cours',CoursController::class);
+Route::resource('horaires',HorairesController::class);
+Route::resource('inscriptions',InscriptionsController::class);
+Route::resource('/jours', JoursController::class);
+
